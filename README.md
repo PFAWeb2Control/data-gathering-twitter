@@ -1,2 +1,2 @@
 # data-gathering-twitter
-Récupération de données via l'API Twitter
+Examples of access to the Twitter API through different libraries.
