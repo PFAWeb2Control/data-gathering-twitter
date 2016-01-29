@@ -2,7 +2,7 @@
 Examples of access to the Twitter API through different libraries and languages.
 
 ## ruby-twitter/
-All the scripts here use Ruby
+API access using the Ruby language
 
 ### twitter-import.rb
 Twitter API access through the Twitter rubygem
