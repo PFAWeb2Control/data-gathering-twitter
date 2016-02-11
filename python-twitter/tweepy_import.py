@@ -115,4 +115,4 @@ class FilteredStream():
             for i in range(0, tweets_amount):
                 tweets += [self.tweets.pop(0)]
 
-            self.action(self.tweets)
+            self.action(tweets)
