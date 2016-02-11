@@ -33,7 +33,7 @@ class FilteredStreamListener(tweepy.StreamListener):
             hashtags += [h["text"]]
 
         self.tweets["tweets"] += [{ "text": status.text,
-                                    "hastags": hashtags,
+                                    "hashtags": hashtags,
                                     "date": status.created_at,
                                     "fav": status.favorite_count,
                                     "rt": status.retweet_count}]
@@ -81,6 +81,7 @@ class FilteredStream():
 
         self.streamListener = FilteredStreamListener()
         self.liveStream = tweepy.Stream(auth = self.api.auth, listener=self.streamListener)
+        self.criterias = criterias
 
         self.tweets = []
 
@@ -103,7 +104,7 @@ class FilteredStream():
         :return: returns nothing (in fact, loops indefinitely)
         """
 
-        self.liveStream.filter(track=criterias["track"], locations=criterias["locations"], async=True)
+        self.liveStream.filter(track=self.criterias["track"], locations=self.criterias["locations"], async=True)
 
         while(True):
             while(len(self.tweets) < tweets_amount):
@@ -114,4 +115,4 @@ class FilteredStream():
             for i in range(0, tweets_amount):
                 tweets += [self.tweets.pop(0)]
 
-            self.action(tweets)
+            self.action(self.tweets)
