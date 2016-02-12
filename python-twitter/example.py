@@ -14,10 +14,10 @@ class MyFilteredStream(FilteredStream):
     def __init__(self):
         # Tweets from Bordeaux OR mentioning 'Paris'
         self.criterias = {
-            "track": ['5YearsOfNeverSayNever'],
+            "track": ['Paris'],
             "locations": [-0.6389644,44.8111222,-0.5334955,44.9163535]
         }
-        FilteredStream.__init__(self, self.criterias, 5, "../test-config.json")
+        FilteredStream.__init__(self, self.criterias, 5, "../config.json")
 
     # We redefine the action() method, in order to treat our packs of tweets the
     # way we want.
