@@ -2,49 +2,43 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
-"""
-This example module shows how to use the various import libraries written for the project
-"""
+# This example script shows how to use the various import libraries written for
+# the project
 
-import time
 from tweepy_import import FilteredStream
 
 class MyFilteredStream(FilteredStream):
-    """
-    Custom filtered stream, looking for tweets from Bordeaux or mentioning Paris, and printing them in a formatted way
-    """
+    # Custom filtered stream, looking for tweets from Bordeaux or mentioning
+    # Paris, and printing them in a formatted way
 
     def __init__(self):
-        """
-        Construct a new custom stream
-        :return: returns nothing
-        """
-
         # Tweets from Bordeaux OR mentioning 'Paris'
         self.criterias = {
-            "track": ['Paris'],
+            "track": ['5YearsOfNeverSayNever'],
             "locations": [-0.6389644,44.8111222,-0.5334955,44.9163535]
         }
-        FilteredStream.__init__(self, self.criterias, "../config.json")
+        FilteredStream.__init__(self, self.criterias, 5, "../test-config.json")
 
+    # We redefine the action() method, in order to treat our packs of tweets the
+    # way we want.
+    #
+    # Here, we print them in a special way.
     def action(self, tweets_list):
-        """
-        Override of FilteredStream.action()
-        Print a formatted version of each tweet, with all of its informations,
-        and save them as 'test.json'
-
-        :param tweets_list: list of tweets
-        :return: returns nothing
-        """
 
         for tweet in tweets_list :
-            print("-> " + tweet["text"] + "\n\t-> " + str(tweet["date"]) + " - " + str(tweet["fav"]) + " ♥ " + str(tweet["rt"]) + " ٭ ")
+            # Formatted printing
+            print("-> " + tweet["text"] + "\n\t-> " +
+                str(tweet["date"]) + " - " +
+                str(tweet["fav"]) + " ♥ " +
+                str(tweet["rt"]) + " ٭ ")
 
             for h in tweet["hashtags"]:
                 print("\t#" + h)
 
-        print('---------------------------------------------\n')
+        print('\n---------------------------------------------')
+        # Data export to JSON
         self.export('test.json',tweets_list)
+        print('---------------------------------------------\n')
 
 stream = MyFilteredStream()
-stream.stream(5, 5)
+stream.stream()
