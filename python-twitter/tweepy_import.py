@@ -122,7 +122,7 @@ class FilteredStream():
         Format tweets as JSON
 
         :param tweets: dictionary of tweets to format
-        :return: returns nothing
+        :return: returns the formatted tweets
         """
         return json.dumps({"tweets": tweets}, sort_keys=True, indent=4 * ' ')
 
