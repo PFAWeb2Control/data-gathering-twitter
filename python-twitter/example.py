@@ -9,8 +9,6 @@ This example module shows how to use the various import libraries written for th
 import time
 from tweepy_import import FilteredStream
 
-
-
 class MyFilteredStream(FilteredStream):
     """
     Custom filtered stream, looking for tweets from Bordeaux or mentioning Paris, and printing them in a formatted way
@@ -32,11 +30,13 @@ class MyFilteredStream(FilteredStream):
     def action(self, tweets_list):
         """
         Override of FilteredStream.action()
-        Print a formatted version of each tweet, with all of its informations
+        Print a formatted version of each tweet, with all of its informations,
+        and save them as 'test.json'
 
         :param tweets_list: list of tweets
         :return: returns nothing
         """
+
         for tweet in tweets_list :
             print("-> " + tweet["text"] + "\n\t-> " + str(tweet["date"]) + " - " + str(tweet["fav"]) + " ♥ " + str(tweet["rt"]) + " ٭ ")
 
@@ -44,6 +44,7 @@ class MyFilteredStream(FilteredStream):
                 print("\t#" + h)
 
         print('---------------------------------------------\n')
+        self.export('test.json',tweets_list)
 
 stream = MyFilteredStream()
 stream.stream(5, 5)

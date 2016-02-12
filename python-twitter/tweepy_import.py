@@ -34,7 +34,7 @@ class FilteredStreamListener(tweepy.StreamListener):
 
         self.tweets["tweets"] += [{ "text": status.text,
                                     "hashtags": hashtags,
-                                    "date": status.created_at,
+                                    "date": str(status.created_at),
                                     "fav": status.favorite_count,
                                     "rt": status.retweet_count}]
 
@@ -116,3 +116,25 @@ class FilteredStream():
                 tweets += [self.tweets.pop(0)]
 
             self.action(tweets)
+
+    def to_json(self, tweets):
+        """
+        Format tweets as JSON
+
+        :param tweets: dictionary of tweets to format
+        :return: returns nothing
+        """
+        return json.dumps({"tweets": tweets}, sort_keys=True, indent=4 * ' ')
+
+    def export(self, filepath, tweets):
+        """
+        Prints tweets as JSON into a file (overwrite it)
+
+        :param filepath: path to the output file
+        :param tweets: dictionary of tweets to print as JSON
+        :return: returns nothing
+        """
+        with open(filepath, 'w') as f:
+            f.write(self.to_json(tweets))
+
+        print(str(len(tweets)) + " tweets successfully exported to " + filepath)
