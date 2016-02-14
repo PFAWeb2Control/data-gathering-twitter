@@ -12,10 +12,12 @@ class MyFilteredStream(FilteredStream):
     # Paris, and printing them in a formatted way
 
     def __init__(self):
-        # Tweets from Bordeaux OR mentioning 'Paris'
+        # Tweets from Bordeaux OR mentioning 'Paris', in ANY language
         self.criterias = {
-            "track": ['Paris'],
-            "locations": [-0.6389644,44.8111222,-0.5334955,44.9163535]
+            "track": ["Paris"], # Keywords filter
+            "locations": [-0.6389644,44.8111222,-0.5334955,44.9163535], # Bordeaux bounding box
+            # "lang": ["fr", "en"] # In French OR English
+            "lang": ["*"] # Any language
         }
         FilteredStream.__init__(self, self.criterias, 5, "../config.json")
 

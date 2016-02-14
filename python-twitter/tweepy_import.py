@@ -29,22 +29,23 @@ class FilteredStreamListener(tweepy.StreamListener):
         :param status: a tweet
         :return: returns nothing
         """
-        hashtags = []
-        for h in status.entities["hashtags"]:
-            hashtags += [h["text"]]
+        if status.lang in self.fstream.criterias["lang"] or status.lang == "und" or self.fstream.criterias["lang"][0] == "*":
+            hashtags = []
+            for h in status.entities["hashtags"]:
+                hashtags += [h["text"]]
 
-        self.tweets["tweets"] += [{ "text": status.text,
-                                    "hashtags": hashtags,
-                                    "date": str(status.created_at),
-                                    "fav": status.favorite_count,
-                                    "rt": status.retweet_count}]
+            self.tweets["tweets"] += [{ "text": status.text,
+                                        "hashtags": hashtags,
+                                        "date": str(status.created_at),
+                                        "fav": status.favorite_count,
+                                        "rt": status.retweet_count}]
 
-        if(len(self.tweets["tweets"]) >= self.fstream.tweets_number):
-            tweets = []
-            for i in range(0, self.fstream.tweets_number):
-                tweets += [self.tweets["tweets"].pop(0)]
+            if(len(self.tweets["tweets"]) >= self.fstream.tweets_number):
+                tweets = []
+                for i in range(0, self.fstream.tweets_number):
+                    tweets += [self.tweets["tweets"].pop(0)]
 
-            self.fstream.action(tweets)
+                self.fstream.action(tweets)
 
     def on_error(self, status_code):
         """
@@ -65,9 +66,14 @@ class FilteredStream():
         """
         Construct a new 'FilteredStream' object
 
-        :param criterias: dictionary containing keywords ("track") and/or location boundaries ("locations"), used to filter the search
-        :param tweets_number: number of tweets between two calls to action() (default = 10 tweets)
-        :param config_filepath: path to the JSON file containing the Twitter App's authentication informations
+        :param criterias: dictionary containing keywords ("track"), location
+            boundaries ("locations") and/or languages ("lang", using BCP 47
+            language codes, or "*" to match any language), used to filter the
+            search
+        :param tweets_number: number of tweets between two calls to action()
+            (default = 10 tweets)
+        :param config_filepath: path to the JSON file containing the Twitter
+            App's authentication informations
         :return: returns nothing
         """
         with open(config_filepath, 'r') as f:
