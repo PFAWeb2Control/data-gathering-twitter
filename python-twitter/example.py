@@ -8,10 +8,10 @@ from __future__ import unicode_literals
 from tweepy_import import FilteredStream
 from tweepy_import import TwitterUser
 
-config = "../test-config.json"
+config = "../config.json"
 
 # An example using the TwitterUser class
-user = TwitterUser('hixe33', config)
+user = TwitterUser('interior', config)
 
 tweets = []
 for t in user.tweets(5):
