@@ -2,11 +2,26 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
-# This example script shows how to use the various import libraries written for
+# This example script shows how to use the tweepy_import wrapper written for
 # the project
 
 from tweepy_import import FilteredStream
+from tweepy_import import TwitterUser
 
+config = "../test-config.json"
+
+# An example using the TwitterUser class
+user = TwitterUser('hixe33', config)
+
+tweets = []
+for t in user.tweets(5):
+    tweets += [t.text]
+
+# Prints a list of five tweets
+for t in tweets:
+    print t
+
+# Another example, with the FilteredStream class
 class MyFilteredStream(FilteredStream):
     # Custom filtered stream, looking for tweets from Bordeaux or mentioning
     # Paris, and printing them in a formatted way
@@ -19,7 +34,7 @@ class MyFilteredStream(FilteredStream):
             # "lang": ["fr", "en"] # In French OR English
             "lang": ["*"] # Any language
         }
-        FilteredStream.__init__(self, self.criterias, 5, "../config.json")
+        FilteredStream.__init__(self, self.criterias, 5, config)
 
     # We redefine the action() method, in order to treat our packs of tweets the
     # way we want.

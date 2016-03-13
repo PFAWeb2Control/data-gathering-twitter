@@ -1,6 +1,3 @@
-# coding: utf-8
-from __future__ import unicode_literals
-
 """
     A simple library to use even more easily Tweepy
 """
@@ -117,7 +114,8 @@ class FilteredStream():
         :param tweets: dictionary of tweets to format
         :return: returns the formatted tweets
         """
-        return json.dumps({"tweets": tweets}, sort_keys=True, indent=4 * ' ')
+        # return json.dumps({"tweets": tweets}, sort_keys=True, indent=4 * ' ')
+        return json.dumps({"tweets": tweets}, sort_keys=True)
 
     def export(self, filepath, tweets):
         """
@@ -131,3 +129,38 @@ class FilteredStream():
             f.write(self.to_json(tweets))
 
         print(str(len(tweets)) + " tweets successfully exported to " + filepath)
+
+class TwitterUser():
+    """
+    TwitterUser is a representation of Twitter's user
+    """
+
+    def __init__(self, pseudo, config_filepath="../config.json"):
+        """
+        Construct a new 'TwitterUser' object
+
+        :param pseudo: string containing the user's pseudo (@something), also
+            referred as 'screen_name' in the API
+        :param config_filepath: path to the JSON file containing the Twitter
+            App's authentication informations
+        :return: returns nothing
+        """
+
+        with open(config_filepath, 'r') as f:
+            self.cfg = json.loads(f.read())
+
+        self.auth = tweepy.OAuthHandler(self.cfg["consumer_key"], self.cfg["consumer_secret"])
+        self.auth.set_access_token(self.cfg["access_token"], self.cfg["access_secret"])
+
+        self.api = tweepy.API(self.auth)
+
+        self.user = self.api.get_user(pseudo)
+
+    def tweets(self, nb=15):
+        """
+        Return a list of the last user's tweets
+
+        :param nb: number of tweets to return
+        !return: returns a list of tweets
+        """
+        return self.api.search(q="from:" + self.user.screen_name,count=5)
