@@ -1,9 +1,6 @@
 # data-gathering-twitter
 Examples of access to the Twitter API through different libraries and languages.
 
-## python-twitter/
-API access using the Python language
-
 ### tweepy_import.py
 Twitter API access through the Tweepy library
 (http://www.tweepy.org/)
