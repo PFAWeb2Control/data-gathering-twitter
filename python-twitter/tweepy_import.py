@@ -33,6 +33,9 @@ class FilteredStreamListener(tweepy.StreamListener):
 
             self.tweets["tweets"] += [{ "text": status.text,
                                         "hashtags": hashtags,
+                                        "author": status.user.name,
+                                        "author_id": status.user.screen_name,
+                                        "id": status.id_str,
                                         "date": str(status.created_at),
                                         "fav": status.favorite_count,
                                         "rt": status.retweet_count}]
